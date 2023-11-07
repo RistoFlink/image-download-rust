@@ -28,7 +28,8 @@ async fn main() -> Result<()> {
         println!("Will be located under {:?}", fname);
         File::create(fname)?
     };
-    let content = response.text().await?;
-    copy(&mut content.as_bytes(), &mut dest)?;
+    let tmp_dir = tmp_dir.into_path();
+    let content = response.bytes().await?;
+    copy(&mut content.as_ref(), &mut dest)?;
     Ok(())
 }
